@@ -13,7 +13,7 @@ This extension requires Sensu version >= 0.26.
 On a Sensu server machine:
 
 ```
-$ sudo sensu-install -e check_dependencies:1.0.0
+$ sudo sensu-install -e check-dependencies:1.0.0
 ```
 
 Edit `/etc/sensu/conf.d/extensions.json` to load it:
