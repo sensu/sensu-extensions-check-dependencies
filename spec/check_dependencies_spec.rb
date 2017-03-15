@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "helpers")
-require "sensu/extensions/check_dependencies"
+require "sensu/extensions/check-dependencies"
 
 describe "Sensu::Extension::CheckDependencies" do
   include Helpers
