@@ -21,7 +21,7 @@ Edit `/etc/sensu/conf.d/extensions.json` to load it:
 ```
 {
   "extensions": {
-    "check_dependencies": {
+    "check-dependencies": {
       "version": "1.0.0"
     }
   }
