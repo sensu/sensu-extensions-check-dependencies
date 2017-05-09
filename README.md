@@ -1,16 +1,21 @@
 ## Sensu::Extensions::CheckDependencies
 
+This filter extension provides the Sensu Core built-in filter `check_dependencies`.
+
 This filter matches events when an event already exists, enabling the user to
 reduce notification noise and only be notified for the “root cause” of a given
 failure. Check dependencies can be defined in the check definition, using
 dependencies, an array of checks (e.g. `check_app`) or Sensu client/check pairs
 (e.g. `db-01/check_mysql`).
 
+[![Build Status](https://travis-ci.org/sensu-extensions/sensu-extensions-check-dependencies.svg?branch=master)](https://travis-ci.org/sensu-extensions/sensu-extensions-check-dependencies)
+
 ### Installation
 
-This extension requires Sensu version >= 0.26.
+This extension requires Sensu version >= 0.26 and is provided as a built-in 
+filter in Sensu >= 0.29.
 
-On a Sensu server machine:
+To manually install this extension on a Sensu server machine:
 
 ```
 $ sudo sensu-install -e check-dependencies:1.0.1
