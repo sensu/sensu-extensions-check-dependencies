@@ -36,17 +36,31 @@ module Sensu
       # @param client_name [String]
       # @param check_name [String]
       # @return [Boolean]
-      def event_exists?(client_name, check_name)
+      def client_event_exists?(client_name, check_name)
         path = "/events/#{client_name}/#{check_name}"
         response = sensu_api_get_request(path)
         response.code.to_i == 200
       end
 
+      # Check to see if an event exists for a subscription/check pair. This
+      # method is looking for a HTTP response code of `200`.
+      #
+      # @param subscription_name [String]
+      # @param check_name [String]
+      # @return [Boolean]
+      def subscription_event_exists?(subscription_name, check_name)
+        path = "/events"
+        response = sensu_api_get_request(path)
+        events = JSON.load(response.body)
+        !events.select { |event| event[:client][:subscriptions].include?(subscription_name) && event[:check][:name] == check_name}.empty?
+      end
+
       # Determine if an event exists for any of the check
       # dependencies declared in the event data, specified in array,
       # check `dependencies`. A check dependency can be a check
-      # executed by the same Sensu client (eg. `check_app`), or a
-      # client/check pair (eg.`i-424242/check_mysql`).
+      # executed by the same Sensu client (eg. `check_app`), a
+      # client/check pair (eg.`i-424242/check_mysql`), or a
+      # subscription/check pair (eg. `subscription:mysql/check_mysql`).
       #
       # @param event [Hash]
       # @return [Boolean]
@@ -54,9 +68,15 @@ module Sensu
         if event[:check][:dependencies].is_a?(Array)
           event[:check][:dependencies].any? do |dependency|
             begin
-              check_name, client_name = dependency.split("/").reverse
-              client_name ||= event[:client][:name]
-              event_exists?(client_name, check_name)
+              check_name, entity = dependency.split("/").reverse
+              if entity =~ /^subscription:.*$/
+                subscription_name = entity.split(":")[1]
+                subscription_event_exists?(subscription_name, check_name)
+              else
+                client_name = entity
+                client_name ||= event[:client][:name]
+                client_event_exists?(client_name, check_name)
+              end
             rescue => error
               @logger.error("failed to query api for a check dependency event", :error => error)
               false
