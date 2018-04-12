@@ -61,4 +61,25 @@ describe "Sensu::Extension::CheckDependencies" do
       end
     end
   end
+
+  it "can determine if an event exists for a check dependency subscription/check pair" do
+    async_wrapper do
+      event = event_template
+      event2 = event_template
+      event[:check][:dependencies] = ["subscription:foo/bar"]
+      stub_request(:get, "127.0.0.1:4567/events").
+        to_return(:status => 200, :body => JSON.dump([event2]))
+      @extension.safe_run(event) do |output, status|
+        expect(status).to eq(1)
+        event2[:client][:subscriptions] = ["foo"]
+        event2[:check][:name] = "bar"
+        stub_request(:get, "127.0.0.1:4567/events").
+          to_return(:status => 200, :body => JSON.dump([event2]))
+        @extension.safe_run(event) do |output, status|
+          expect(status).to eq(0)
+          async_done
+        end
+      end
+    end
+  end
 end

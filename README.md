@@ -5,8 +5,9 @@ This filter extension provides the Sensu Core built-in filter `check_dependencie
 This filter matches events when an event already exists, enabling the user to
 reduce notification noise and only be notified for the “root cause” of a given
 failure. Check dependencies can be defined in the check definition, using
-dependencies, an array of checks (e.g. `check_app`) or Sensu client/check pairs
-(e.g. `db-01/check_mysql`).
+dependencies, an array of checks (e.g. `check_app`), Sensu client/check pairs
+(e.g. `db-01/check_mysql`), or a subscription/check pair
+(e.g. `subscription:mysql/check_mysql`).
 
 [![Build Status](https://travis-ci.org/sensu-extensions/sensu-extensions-check-dependencies.svg?branch=master)](https://travis-ci.org/sensu-extensions/sensu-extensions-check-dependencies)
 
@@ -67,6 +68,26 @@ Specify a dependency on the `mysql` check:
       "interval": 20,
       "dependencies": [
         "db-01/mysql"
+      ]
+    }
+  }
+}
+```
+
+... or specify a dependency on any `mysql` check in the `mysql_nodes`
+subscription:
+
+``` javascript
+{
+  "checks": {
+    "web_application_api": {
+      "command": "check-http.rb -u https://localhost:8080/api/v1/health",
+      "subscribers": [
+        "web_application"
+      ],
+      "interval": 20,
+      "dependencies": [
+        "subscription:mysql_nodes/mysql"
       ]
     }
   }
