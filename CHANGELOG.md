@@ -12,6 +12,13 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ### Changed
 
+## [1.1.0] - 2018-06-21
+
+### Added
+
+- Add support for setting a subscription/check pair as a check dependency.
+[PR #12](https://github.com/sensu/sensu-extensions-check-dependencies/pull/12) (@testeddoughnut)
+
 ## [1.0.1] - 2017-03-15
 
 ### Fixed
@@ -24,6 +31,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 - Initial release.
 
-[Unreleased]: https://github.com/sensu-extensions/sensu-extensions-check-dependencies/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/sensu-extensions/sensu-extensions-check-dependencies/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/sensu-extensions/sensu-extensions-check-dependencies/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/sensu-extensions/sensu-extensions-check-dependencies/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/sensu-extensions/sensu-extensions-check-dependencies/compare/v1.0.0...v1.0.0
