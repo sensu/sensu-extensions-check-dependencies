@@ -19,7 +19,7 @@ filter in Sensu >= 0.29.
 To manually install this extension on a Sensu server machine:
 
 ```
-$ sudo sensu-install -e check-dependencies:1.0.1
+$ sudo sensu-install -e check-dependencies:1.1.0
 ```
 
 Edit `/etc/sensu/conf.d/extensions.json` to load it:
@@ -28,7 +28,7 @@ Edit `/etc/sensu/conf.d/extensions.json` to load it:
 {
   "extensions": {
     "check-dependencies": {
-      "version": "1.0.1"
+      "version": "1.1.0"
     }
   }
 }
